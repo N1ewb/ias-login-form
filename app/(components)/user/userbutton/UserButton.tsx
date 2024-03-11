@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,26 +13,33 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { redirect, useRouter } from "next/navigation";
 import React from "react";
+import LogoutButton from "../LogoutButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getUser } from "@/app/server-actions/users/getUser";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
-const UserButton = () => {
-  const router = useRouter();
-  const handleLogout = () => {
-    router.push("/logout");
-  };
+const UserButton = async () => {
+  const session = await getServerSession(authOptions);
+  const user = await getUser(session?.user?.email || 'Not Logged In')
+
   return (
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline">Open</Button>
+          <Button variant="ghost"><Avatar>
+            <AvatarImage src={session && session.user?.image} />
+              <AvatarFallback className="capitalize">{session && session.user?.email?.charAt(0)}</AvatarFallback>
+            </Avatar>
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel className="capitalize">{`${user?.firstName} ${user?.lastName}`}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>
-              Profile
+            <DropdownMenuItem className="text-[#25ab39]">
+              {user?.role}
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem>
@@ -43,8 +48,8 @@ const UserButton = () => {
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => handleLogout()}>
-            Log out
+          <DropdownMenuItem >
+            <LogoutButton/>
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuContent>
