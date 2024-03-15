@@ -4,6 +4,8 @@ import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import React from 'react'
 
+
+
 const TeacherDashboard = async () => {
   const session = await getServerSession(authOptions);
 
@@ -14,7 +16,7 @@ const TeacherDashboard = async () => {
   })
 
   const Students = [
-    {firstname: 'Nathan', lastname: 'lucero', tasks: 65376, Assignments: 12109, Exam: 132645},
+    {firstname: 'Nathan', lastname: 'Lucero', tasks: 65376, Assignments: 12109, Exam: 32645},
     {firstname: 'Laloyd', lastname: 'Semblante', tasks: 34567, Assignments: 56387, Exam: 48719},
     {firstname: 'Dixtir', lastname: 'Basegro', tasks: 48910, Assignments: 34455, Exam: 23809},
   ]
@@ -29,12 +31,15 @@ const TeacherDashboard = async () => {
   return (
     <div className='flex flex-col relative top-[100px] w-full h-screen p-[30px] overflow-hidden bg-[#F1F1F1]'>
       <h1 className='font-semibold text-[30px]'> Good Afternoon, Ma'am <span className='text-[#34B53A]'>{user?.firstName} {user?.lastName}</span></h1>
-      <div className='flex'>
+      <div className='flex w-[80%] h-auto justify-around items-center '>
         {Students.map((student) => 
-          <div className='bg-[white]'>
-              <p className=''>Tasks<br></br><span>{student.tasks}</span></p>
-              <p className=''>Assignments<br></br><span>{student.Assignments}</span></p>
-              <p className=''>Exam<br></br><span>{student.Exam}</span></p>
+          <div className='bg-[white] h-[200px] w-[300px] flex flex-col justify-center items-center'>
+            <Image src="" alt="Profile Pic" /> 
+            <h2 className='font-semibold'>{student.firstname} {student.lastname}</h2>
+            <p className='font-semibold'>Tasks <span className='font-normal'>{student.tasks}</span></p>
+            <div></div>
+            <p className='font-semibold'>Assignments <span className='font-normal'>{student.Assignments}</span></p>
+            <p className='font-semibold'>Exam <span className='font-normal'>{student.Exam}</span></p>
           </div>
         )}
       </div>
