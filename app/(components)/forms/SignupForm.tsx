@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/components/ui/use-toast";
 import { db } from "@/lib/db";
 import Link from "next/link";
 
@@ -26,41 +27,83 @@ const SignupForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [capchta, setCaptcha] = useState<string | null>();
-
   const [message, setMessage] = useState("");
 
+  const { toast } = useToast();
+
   const handleSignupStudent = async () => {
-    if (capchta) {
-      setMessage("Signing Up...");
-      const message = await signUp(
-        firstName,
-        lastName,
-        email,
-        password,
-        confirmPassword,
-        "STUDENT"
-      );
-      setMessage(message);
-    } else {
-      return "captcha failed?";
+    try {
+      if (capchta) {
+        setMessage("Signing Up...");
+        const message = await signUp(
+          firstName,
+          lastName,
+          email,
+          password,
+          confirmPassword,
+          "STUDENT"
+        );
+        setMessage(message);
+        toast({
+          title: "Sign Up",
+          description: "Signed Up Successful, Please proceed to Login!",
+        });
+      } else {
+        toast({
+          title: "Sign Up",
+          description: "Signed Up Failed, Please try again",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Sign Up",
+        description: `${error}, Please try again`,
+      });
+    } finally {
+      resetForm();
     }
   };
 
   const handleSignupTeacher = async () => {
-    if (capchta) {
-      setMessage("Signing Up...");
-      const message = await signUp(
-        firstName,
-        lastName,
-        email,
-        password,
-        confirmPassword,
-        "TEACHER"
-      );
-      setMessage(message);
-    } else {
-      return "captha failed?";
+    try {
+      if (capchta) {
+        setMessage("Signing Up...");
+        const message = await signUp(
+          firstName,
+          lastName,
+          email,
+          password,
+          confirmPassword,
+          "TEACHER"
+        );
+        setMessage(message);
+        toast({
+          title: "Sign Up",
+          description: "Signed Up Successful, Please proceed to Login",
+        });
+      } else {
+        toast({
+          title: "Sign Up",
+          description: "Signed Up Failed, Please try again",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Sign Up",
+        description: `${error}, Please try again`,
+      });
+    } finally {
+      resetForm();
     }
+  };
+
+  const resetForm = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setCaptcha(null);
   };
 
   return (

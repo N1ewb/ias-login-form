@@ -22,9 +22,11 @@ import {
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 const SigninForm = () => {
   const { status } = useSession();
+  const { toast } = useToast();
   const router = useRouter();
 
   const [message, setMessage] = useState("");
@@ -42,8 +44,16 @@ const SigninForm = () => {
 
       if (!signInResponse || signInResponse.ok !== true) {
         setMessage("Invalid Credentials");
+        toast({
+          title: "Sign In",
+          description: "Signed In Failed, Please try again",
+        });
       } else {
         router.refresh();
+        toast({
+          title: "Sign In",
+          description: "Signed In Successful, Please proceed to dashboard",
+        });
       }
     } catch (error) {}
   };
