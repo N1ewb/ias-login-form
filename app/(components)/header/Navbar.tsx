@@ -22,6 +22,8 @@ const Navbar = async () => {
         return '/protected/student-dashboard'
       case 'TEACHER':
         return '/protected/teacher-dashboard'
+        case 'ADMIN':
+        return '/protected/admin-dashboard'
       default:
         return 'protected/dashboard'
     }
@@ -39,7 +41,6 @@ const Navbar = async () => {
         ) : (
           <>
             <Link href="/login">Login</Link>
-            <Link href="/register">Register</Link>
           </>
         )}
         <ModeToggle />
