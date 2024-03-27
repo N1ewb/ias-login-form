@@ -19,6 +19,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getUser } from "@/app/server-actions/users/getUser";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import Link from "next/link";
 
 const UserButton = async () => {
   const session = await getServerSession(authOptions);
@@ -42,8 +43,10 @@ const UserButton = async () => {
               {user?.role}
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              Settings
+            <DropdownMenuItem >
+              
+            <Link href="/ChangePassword">Change Password</Link>
+         
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuGroup>

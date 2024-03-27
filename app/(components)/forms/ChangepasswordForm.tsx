@@ -20,42 +20,39 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
+import { changePassword } from "@/app/server-actions/users/changePassword";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 
-const SigninForm = () => {
+const ChangePassword = () => {
   const { status } = useSession();
   const { toast } = useToast();
   const router = useRouter();
 
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [oldpassword, setOldPassword] = useState("")
+  const [newpassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("")
 
-  const handleSignIn = async () => {
+  const handleChangepassword = async () => {
     setMessage("Logging In...");
     try {
-      const signInResponse = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+        if(newpassword !== confirmPassword) return "Password doesnt match"
 
-      if (!signInResponse || signInResponse.ok !== true) {
-        setMessage("Invalid Credentials");
+        const message = await changePassword(email, oldpassword, newpassword)
+        setMessage(message)
         toast({
-          title: "Sign In",
-          description: "Signed In Failed, Please try again",
-        });
-      } else {
-        router.refresh();
+            title: "Change Password",
+            description: "Change Password Sucessfully!",
+          });
+    } catch (error) {
         toast({
-          title: "Sign In",
-          description: "Signed In Successful, Please proceed to dashboard",
-        });
-      }
-    } catch (error) {}
+            title: "Change Password",
+            description: "Change Failed, Please try again",
+          });
+    }
   };
 
   useEffect(() => {
@@ -69,13 +66,13 @@ const SigninForm = () => {
     <div>
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Login</CardTitle>
+          <CardTitle>Change Password</CardTitle>
           <CardDescription>Welcome to our website</CardDescription>
         </CardHeader>
         <CardContent>
           <form>
             <div className="grid w-full items-center gap-4">
-              <div className="space-y-1">
+            <div className="space-y-1">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
@@ -85,21 +82,39 @@ const SigninForm = () => {
                 />
               </div>
               <div className="space-y-1">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="old-password">Previous Password</Label>
                 <Input
-                  id="password"
+                  id="old-password"
                   type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={oldpassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                />
+              </div>
+              <div className="space-y-1">
+                <Label htmlFor="newpassword">Password</Label>
+                <Input
+                  id="newpassword"
+                  type="password"
+                  value={newpassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </div>
+              <div className="space-y-1">
+                <Label htmlFor="confirm-password">Password</Label>
+                <Input
+                  id="confirm-password"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
             </div>
           </form>
         </CardContent>
-        <CardFooter className="flex flex-col justify-between">
+        <CardFooter className="flex justify-between">
           <div className="flex justify-between w-full">
             <Link href="/register">Register an Account</Link>
-            <Button onClick={() => handleSignIn()}>Login</Button>
+            <Button onClick={() => handleChangepassword()}>Login</Button>
           </div>
           
         </CardFooter>
@@ -108,4 +123,4 @@ const SigninForm = () => {
   );
 };
 
-export default SigninForm;
+export default ChangePassword;
