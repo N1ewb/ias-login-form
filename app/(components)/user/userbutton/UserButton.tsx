@@ -18,20 +18,23 @@ import LogoutButton from "../LogoutButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getUser } from "@/app/server-actions/users/getUser";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 
 const UserButton = async () => {
   const session = await getServerSession(authOptions);
-  const user = await getUser(session?.user?.email || 'Not Logged In')
+  const user = await getUser();
 
   return (
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost"><Avatar>
-            <AvatarImage src={session && session.user?.image} />
-              <AvatarFallback className="capitalize">{session && session.user?.email?.charAt(0)}</AvatarFallback>
+          <Button variant="ghost">
+            <Avatar>
+              <AvatarImage src={session && session.user?.image} />
+              <AvatarFallback className="capitalize">
+                {session && session.user?.email?.charAt(0)}
+              </AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
@@ -43,16 +46,15 @@ const UserButton = async () => {
               {user?.role}
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
-            <DropdownMenuItem >
-              
-            <Link href="/ChangePassword">Change Password</Link>
-         
+            <DropdownMenuItem>
+              <Link href="/protected/ChangePassword">Change Password</Link>
+
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem >
-            <LogoutButton/>
+          <DropdownMenuItem>
+            <LogoutButton />
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuContent>

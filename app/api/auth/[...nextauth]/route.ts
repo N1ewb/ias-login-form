@@ -4,6 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'
 import { JWT } from "next-auth/jwt";
+import { MyUser } from "@/types/next-auth";
 import NextAuth from "next-auth/next";
 
 export const authOptions: AuthOptions = {
@@ -81,26 +82,32 @@ export const authOptions: AuthOptions = {
         updateAge: 24 * 60 * 60,
     },
     callbacks: {
-        async session(params: {session: Session; token: JWT; user: User}) {
+        async session(params: {session: Session; token: JWT; user: MyUser}) {
             if(params.session.user) {
                 params.session.user.email = params.token.email;
+                params.session.user.firstName = params.token.firstName; 
+                params.session.user.lastName = params.token.lastName; 
+                params.session.user.role = params.token.role; 
             }
 
             return params.session;
         },
         async jwt(params: {
             token: JWT;
-            user?: User | undefined;
+            user?: MyUser | undefined;
             account?: Account | null | undefined;
             profile?: Profile | undefined;
             isNewUser?: boolean | undefined;
-        }) {
-            if(params.user) {
-                params.token.email = params.user.email;
+          }) {
+            if (params.user) {
+              params.token.email = params.user.email;
+              params.token.firstName = params.user.firstName; 
+              params.token.lastName = params.user.lastName; 
+              params.token.role = params.user.role; 
             }
-
+          
             return params.token;
-        }
+          }
     }
 }
 
