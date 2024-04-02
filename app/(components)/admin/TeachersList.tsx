@@ -1,4 +1,5 @@
 import { getTeachers } from '@/app/server-actions/adminQuery/getTeachers';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 type Teacher = {
@@ -34,6 +35,7 @@ const TeachersList = () => {
               <th className="px-4 py-2">First Name</th>
               <th className="px-4 py-2">Last Name</th>
               <th className="px-4 py-2">Email</th>
+              <th className='px-4 py-2'>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -42,6 +44,7 @@ const TeachersList = () => {
                 <td className="border px-4 py-2 capitalize">{teacher.firstName}</td>
                 <td className="border px-4 py-2 capitalize">{teacher.lastName}</td>
                 <td className="border px-4 py-2">{teacher.email}</td>
+                <td className="border px-4 py-2"><Link href={`ResetUserPassword@${teacher.email}`} className='bg-[#f74747] py-1 px-2 text-white rounded-sm'>Reset Password</Link></td>
               </tr>
             ))}
           </tbody>

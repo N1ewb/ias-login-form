@@ -174,7 +174,7 @@ const SignupForm = () => {
             </CardContent>
             <CardFooter className="flex justify-between">
               <Button variant="outline">
-                <Link href="/login">Login to existing account</Link>
+                <Link href="/protected/dashboard">Back</Link>
               </Button>
               <Button onClick={() => handleSignupStudent()}>Register</Button>
             </CardFooter>
@@ -241,7 +241,7 @@ const SignupForm = () => {
             </CardContent>
             <CardFooter className="flex justify-between">
               <Button variant="outline">
-                <Link href="/login">Login to existing account</Link>
+                <Link href="/protected/dashboard">Back</Link>
               </Button>
               <Button onClick={() => handleSignupTeacher()}>Register</Button>
             </CardFooter>
