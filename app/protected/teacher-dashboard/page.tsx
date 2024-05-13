@@ -1,7 +1,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
-
+import Statistics from './Group 2379.png'
 import handicon from "./Group 2382.png";
 
 import Image from "next/image";
@@ -48,7 +48,7 @@ const TeacherDashboard = async () => {
   ];
 
   return (
-    <div className="flex flex-col relative top-[100px] w-full h-screen p-[30px] overflow-hidden bg-[#F1F1F1] justify-evenly">
+    <div className="flex flex-col relative top-[100px] w-full h-auto p-[30px] overflow-hidden bg-[#F1F1F1] justify-evenly">
       <h1 className="font-semibold text-[30px]">
         {" "}
         Good Afternoon, Ma'am{" "}
@@ -56,9 +56,9 @@ const TeacherDashboard = async () => {
           {user?.firstName} {user?.lastName}
         </span>
       </h1>
-      <div className="flex w-[80%] h-auto justify-around items-center ">
+      <div className="flex w-[100%] h-auto justify-around items-center mt-10">
         {Students.map((student) => (
-          <div className="bg-[white] h-[200px] w-[300px] flex flex-col justify-around items-center p-4">
+          <div className="bg-[white] h-[300px] w-[30%] flex flex-col justify-around items-center p-4">
             <div className="flex ">
               <Image src="" alt="Profile Pic" />
               <h2 className="font-semibold">
@@ -81,7 +81,9 @@ const TeacherDashboard = async () => {
           </div>
         ))}
       </div>
-      <div className="h-[24%] w-[78%] bg-[#4339F2] rounded-sm flex text-white justify-around items-center">
+      <div className="flex flex-row w-full mt-5">
+      <div className="flex flex-col w-[75%] gap-5">
+      <div className="h-[24%] w-[98%] bg-[#4339F2] rounded-sm flex text-white justify-around items-center">
         <div className="">
           <Image src={handicon} alt="232323" className="h-[80px] w-[auto]" />
         </div>
@@ -96,7 +98,7 @@ const TeacherDashboard = async () => {
           Examine
         </button>
       </div>
-      <div className="flex text-center items-center w-[90%] justify-around font-semibold ">
+      <div className="flex text-center items-center w-full justify-around font-semibold ">
         {cards.map((card, index) => (
           <div
             className="flex flex-col h-[220px] w-[200px] bg-[white] rounded-sm text-center items-center p-5 gap-6"
@@ -110,9 +112,17 @@ const TeacherDashboard = async () => {
               {card.value}%
             </p>
           </div>
+          
         ))}
+        
+      </div>  
+      </div>
+      <div className="">
+              <Image src={Statistics} alt="Statistics" height={500} width={400}></Image>
+          </div>
       </div>
     </div>
+    
   );
 };
 

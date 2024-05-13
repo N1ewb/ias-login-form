@@ -1,8 +1,14 @@
-import React from "react";
+
+import React, { useState } from "react";
 import Image from 'next/image'
 import Statistics from './Group 2379.png'
+import { makeComment } from "@/app/server-actions/users/makeComment";
+import { useToast } from "@/components/ui/use-toast";
+import MakeComments from "@/app/(components)/forms/MakeComments";
 
 const StudentDashboard = () => {
+  
+
   const cards = [
     { name: "Task", value: 67, bgcolor:'#E2FBD7' },
     { name: "Quizzes", value: 46,bgcolor:'#DAD7FE' },
@@ -46,7 +52,7 @@ const StudentDashboard = () => {
             <p className={`flex items-center text-center justify-center h-[100px] w-[100px] rounded-[50%] bg-[#E2FBD7]`}>67%</p>
           </div>
           <div className="">
-              <Image src={Statistics} alt="Statistics" height={600} width={500}></Image>
+              <MakeComments />
           </div>
       </div>  
     </div>

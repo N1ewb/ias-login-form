@@ -1,34 +1,30 @@
-"use client";
+
 import StudentsList from '@/app/(components)/admin/StudentsList';
 import TeachersList from '@/app/(components)/admin/TeachersList';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getUser } from '@/app/server-actions/users/getUser';
+import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import React from 'react';
+import AdminPage from '../admin-dashboard/page';
+import StudentDashboard from '../student-dashboard/page';
+import TeacherDashboard from '../teacher-dashboard/page';
 
-const AdminPage = () => {
-  return (
-    <div className="flex flex-col relative top-[100px] w-full min-h-screen p-8 overflow-hidden bg-gray-100">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-        <button className="h-10 w-20 bg-black text-white rounded-md">
-          <Link href="/register" className="flex items-center justify-center h-full">
-            Add User
-          </Link>
-        </button>
-      </div>
+const Dashboard = async () => {
+  const session = await getServerSession(authOptions);
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold mb-4">Students</h2>
-          <StudentsList />
-        </div>
+  const user = await getUser()
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold mb-4">Teachers</h2>
-          <TeachersList />
-        </div>
-      </div>
-    </div>
-  );
+  switch (user?.role) {
+    case "ADMIN":
+      return <AdminPage />;
+    case "STUDENT":
+      return <StudentDashboard />;
+    case "TEACHER":
+      return <TeacherDashboard />;
+    default:
+      return "Invalid user role";
+  }
 };
 
-export default AdminPage;
+export default Dashboard;

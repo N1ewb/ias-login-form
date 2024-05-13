@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,8 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//Models
-
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
@@ -23,6 +15,16 @@ model User {
   password  String
   createdAt DateTime @default(now())
   role      Role
+  Comment   Comment?
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Comment {
+  id              Int      @id @default(autoincrement())
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
+  comment_content String?
+  comment_title   String?
+  User            User     @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 enum Role {
