@@ -1,4 +1,5 @@
 "use client"
+import Comments from '@/app/(components)/admin/Comments'
 import StudentsList from '@/app/(components)/admin/StudentsList'
 import TeachersList from '@/app/(components)/admin/TeachersList'
 import Link from 'next/link'
@@ -27,6 +28,12 @@ const AdminPage = () => {
           <h2 className="text-xl font-bold mb-4">Teachers</h2>
           <TeachersList />
         </div>
+
+
+      </div>
+      <div className="comments-list">
+        <h2 className="text-xl font-bold mb-4">Teachers</h2>
+        <Comments />
       </div>
     </div>
     </div>
